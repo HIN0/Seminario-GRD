@@ -1,0 +1,19 @@
+# Dependencias binarias: se obtienen con scripts/obtener_dependencias.ps1
+lib/*.jar
+
+# Compilados
+build/
+*.class
+
+# Datos clinicos: NUNCA se suben al repositorio
+datos/*
+!datos/README.md
+
+# Software descargado de CMS (ZIP y carpetas descomprimidas)
+software/
+
+# Credenciales y entornos
+.env
+*.key
+.vscode/
+.idea/
