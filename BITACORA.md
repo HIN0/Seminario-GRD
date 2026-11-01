@@ -32,9 +32,25 @@ qué hice, con qué versión, qué resultado obtuve y qué decidí.
 
 | Caso | Entrada | Código de retorno | MDC | MS-DRG | Observación |
 | --- | --- | --- | --- | --- | --- |
-| 1 | Ejemplo oficial CMS | _pendiente_ | | | |
-| 2 | C50911 + 0HTT0ZZ (mama derecha, mastectomía) | _pendiente_ | | | |
-| 3 | C509 (código OMS sin traducir) + 0HTT0ZZ | _pendiente_ | | | |
+| 1 | Ejemplo oficial CMS | OK | 11 - Kidney and Urinary Tract | 19 - Simultaneous Pancreas, Islet Cell and Kidney Transplant with Hemodialysis | Verifica que la instalación funciona |
+| 2 | C50911 + 0HTT0ZZ (mama derecha, mastectomía) | OK | 9 - Skin, Subcutaneous Tissue and Breast | 583 - Mastectomy for Malignancy without CC/MCC | Código ICD-10-CM completo: agrupa correctamente |
+| 3 | C509 (código OMS sin traducir) + 0HTT0ZZ | INVALID_PDX | 0 - Pre-MDC | 999 - Ungroupable | El código OMS de 4 caracteres no es válido en ICD-10-CM; el agrupador rechaza el episodio |
+
+**Conclusión de la prueba:** un mismo episodio pasa de no agrupable (999) a un
+GRD válido (583) solo por traducir el diagnóstico principal. Sin conversión de
+códigos, los egresos de FALP no pueden procesarse con MS-DRG.
+
+### Discrepancias entre la guía de CMS y el software real
+
+1. El código de ejemplo de la guía no compila: la declaración de la lista de
+   diagnósticos secundarios quedó dentro de un comentario.
+2. El método `getFinalMedSurgType()` que documenta la guía no existe en
+   `MsdrgOutputData` (la guía también lo escribe como `getInitialMedSugType`).
+3. La guía no explica cómo leer `MsdrgValue`; se verificó con `javap` que
+   expone `getValue()` y `getDescription()`.
+
+Lección: verificar la documentación contra el software con `javap` antes de
+asumir nombres de métodos.
 
 ### Preguntas abiertas para el Taller
 

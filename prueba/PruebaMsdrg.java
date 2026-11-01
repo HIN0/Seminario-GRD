@@ -8,6 +8,7 @@ import com.mmm.his.cer.foundation.exception.FoundationException;
 import com.mmm.his.cer.foundation.model.GfcPoa;
 import gov.agency.msdrg.model.v2.MsdrgOption;
 import gov.agency.msdrg.model.v2.MsdrgRuntimeOption;
+import gov.agency.msdrg.model.v2.MsdrgValue;
 import gov.agency.msdrg.model.v2.RuntimeOptions;
 import gov.agency.msdrg.model.v2.enumeration.MarkingLogicTieBreaker;
 import gov.agency.msdrg.model.v2.enumeration.MsdrgAffectDrgOptionFlag;
@@ -102,12 +103,19 @@ public class PruebaMsdrg {
         }
         MsdrgOutputData out = salida.get();
         System.out.println("Codigo de retorno : " + out.getFinalGrc());
-        System.out.println("MDC final         : " + out.getFinalMdc());
-        System.out.println("MS-DRG final      : " + out.getFinalDrg());
-        System.out.println("Tipo med/quir     : " + out.getFinalMedSurgType());
+        System.out.println("MDC final         : " + formatear(out.getFinalMdc()));
+        System.out.println("MS-DRG final      : " + formatear(out.getFinalDrg()));
         System.out.println("Severidad         : " + out.getFinalSeverity());
         System.out.println("PDx reconocido    : "
                 + out.getPdxOutput().isDiagnosisRecognizedByGrouper());
         System.out.println();
+    }
+
+    // MsdrgValue guarda el numero (getValue) y la descripcion (getDescription)
+    private static String formatear(MsdrgValue<Integer> v) {
+        if (v == null) {
+            return "(sin valor)";
+        }
+        return v.getValue() + " - " + v.getDescription();
     }
 }
